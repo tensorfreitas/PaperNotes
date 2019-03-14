@@ -37,6 +37,24 @@ The frequency domain has several limitations:
 
 These reasons are behind why the authors claim that the phase information should be included in the model separation.
 
+# Related Work
+The authors identify some related papers that also explore time-domain.
+
+**TasNet (Time-domain audio separation Network)**
+
+![tasnet](assets/tasnet.png)
+
+- Focused on real-time speech separation task. 
+- It proposes an encoder-decoder framework  with four parts: a preprocessing normalization module, an encoder for estimating the mixture weight, a separation module, and a decoder for waveform reconstruction:
+  
+    1. Input audio is normalized to have unit _L^2^_ norm. 
+    2. An encoder tries to estimate the nonnegative mixture weights for each segment using a 1-D gated convolutional layer (similar to the paper on Language modeling with gated convolutional networks)
+    3. A deep LSTM whit identity skip-connections followed by a fully-connected layer works as the separation network and is used to estimate the source masks that indicate the contribution of each source to the mixture weight.
+    4. A Transposed Convolution is done with N 1-D filters to recover the temporal information
+    5. The  _L^2^_ normalization is inverted to obtain the final separated sources.
+
 ## References
 
 - Stoller, Daniel, Sebastian Ewert, and Simon Dixon. "Wave-u-net: A multi-scale neural network for end-to-end audio source separation." arXiv preprint arXiv:1806.03185 (2018).
+- Luo, Yi, and Nima Mesgarani. "TasNet: time-domain audio separation network for real-time, single-channel speech separation." In 2018 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), pp. 696-700. IEEE, 2018.
+- Yann N Dauphin, Angela Fan, Michael Auli, and David Grangier, “Language modeling with gated convolutional networks,” arXiv preprint arXiv:1612.08083, 2016.
