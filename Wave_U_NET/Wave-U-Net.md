@@ -53,8 +53,21 @@ The authors identify some related papers that also explore time-domain.
     4. A Transposed Convolution is done with N 1-D filters to recover the temporal information
     5. The  _L^2^_ normalization is inverted to obtain the final separated sources.
 
+**MR-CAE (Multi-Resolution Convolutional Auto-Encoder)**
+
+
+<center><img src="assets/MR_CAE.png"></center>
+
+It uses a convolutional autoencoder with layers composed by different sets of filters. Each set has filters of different size that try to capture different features:
+
+
+<center><img src="assets/layer_MR_CAE.png"></center>
+
+These filters are then concatenated before the activation layers (ELU) and after batch normalization in each set of filters. They do not apply any pre or post processing on the audio signals. The network is trained on input signals of 1025 length and the filters chosen have sizes of 5, 50, 256, 512 and 1025. In the decoder part, the process is repeated with Transposed Convolutions.
+
 ## References
 
 - Stoller, Daniel, Sebastian Ewert, and Simon Dixon. "Wave-u-net: A multi-scale neural network for end-to-end audio source separation." arXiv preprint arXiv:1806.03185 (2018).
 - Luo, Yi, and Nima Mesgarani. "TasNet: time-domain audio separation network for real-time, single-channel speech separation." In 2018 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), pp. 696-700. IEEE, 2018.
 - Yann N Dauphin, Angela Fan, Michael Auli, and David Grangier, “Language modeling with gated convolutional networks,” arXiv preprint arXiv:1612.08083, 2016.
+- Grais, Emad M., Dominic Ward, and Mark D. Plumbley. "Raw Multi-Channel Audio Source Separation using Multi-Resolution Convolutional Auto-Encoders." In 2018 26th European Signal Processing Conference (EUSIPCO), pp. 1577-1581. IEEE, 2018.
