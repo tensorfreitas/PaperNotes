@@ -53,6 +53,7 @@ The authors identify some related papers that also explore time-domain.
     4. A Transposed Convolution is done with N 1-D filters to recover the temporal information
     5. The  _L^2^_ normalization is inverted to obtain the final separated sources.
 
+
 **MR-CAE (Multi-Resolution Convolutional Auto-Encoder)**
 
 
@@ -65,9 +66,18 @@ It uses a convolutional autoencoder with layers composed by different sets of fi
 
 These filters are then concatenated before the activation layers (ELU) and after batch normalization in each set of filters. They do not apply any pre or post processing on the audio signals. The network is trained on input signals of 1025 length and the filters chosen have sizes of 5, 50, 256, 512 and 1025. In the decoder part, the process is repeated with Transposed Convolutions.
 
+**SEGAN (Speech Enhancement Generative Adversarial Network)**
+
+It uses a GAN applied to speech enhancement and tries to enhance a noisy audio signal. The generator network performs the enhancement, having as inputs the noisy input signal together with the latent representation _z_. The generator is fully convolutional and is structured similarly to an auto-encoder.
+
+<center><img src="assets/segan_g.png", width="300"></center>
+
+The encoder uses stride convolutions with PReLUs activations and allows consecutive compressions until getting a condensed representation (called the thought vector _c_) that is concatenated with the latent vector _z_. The decoder then reverses the process with fractional-strided transposed convolutions with PReLUs activations. The generator also includes skip connections that connect each encoding layer to its homologous decoding layer. This allows many low-level details to be passed to the decoding stage (that otherwise could be lost). The discriminator in an adversarial setting just classifies whether the generated signal is real or not, allowing the generator to progressively create realistic clean speech audio signals. An additional component of the loss is added to the discriminator to minimize the distance between its generations and clean examples.
+
 ## References
 
 - Stoller, Daniel, Sebastian Ewert, and Simon Dixon. "Wave-u-net: A multi-scale neural network for end-to-end audio source separation." arXiv preprint arXiv:1806.03185 (2018).
 - Luo, Yi, and Nima Mesgarani. "TasNet: time-domain audio separation network for real-time, single-channel speech separation." In 2018 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), pp. 696-700. IEEE, 2018.
 - Yann N Dauphin, Angela Fan, Michael Auli, and David Grangier, “Language modeling with gated convolutional networks,” arXiv preprint arXiv:1612.08083, 2016.
 - Grais, Emad M., Dominic Ward, and Mark D. Plumbley. "Raw Multi-Channel Audio Source Separation using Multi-Resolution Convolutional Auto-Encoders." In 2018 26th European Signal Processing Conference (EUSIPCO), pp. 1577-1581. IEEE, 2018.
+- Pascual, Santiago, Antonio Bonafonte, and Joan Serrà. "SEGAN: Speech enhancement generative adversarial network." arXiv preprint arXiv:1703.09452 (2017).
