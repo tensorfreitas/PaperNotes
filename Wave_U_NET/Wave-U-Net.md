@@ -90,6 +90,27 @@ Since each timestep is stored as a 16-bit integer this would lead to a softmax l
 
 The main problem of this approach is the high memory consumption.
 
+## Wave-U-Net 
+
+**Base Architecture**
+
+<center><img src="assets/waveunet.png", width=500></center>
+
+- According to the authors, the feature maps with increasingly more features and less resolution allows the modeling of long-term dependencies. 
+- The increasing number of high-level features on coarser time scales is done using downsampling blocks. 
+- The Wave-U-net has _L_ levels, with each level working on half the time resolution as the previous one. 
+- It applies zero-padding in the input and after each 1D convolution, it is applied a _LeakyReLU_ activation. 
+- After each Conv1D it is applied decimation that discard features for every other time-step and decreasing the resolution in half.
+- The process is repeated for _L_ layers and then a Conv1D is applied after L blocks initiating the decoding process of the network with UpSampling blocks alternated with Conv1D blocks. 
+- Similarly to U-Net, features from the encoding phase are concatenated with the decoding phase, allowing the combination of high-level features with more local ones. 
+- The final activation is a _tanh_ and the predictions are returned in the interval [-1, 1].
+
+The authors noticed that the upsampling blocks and the transposed convolutions used in related work models introduced _aliasing artifacts_ in the generation process (in the form of high-frequency noise).
+
+To avoid this a linear interpolation for upsampling is applied, ensuring temporal continuity in the feature space. This allowed the removal of high-frequency artifacts. In a) upsampling with artifacts and in b) the linear interpolation:
+
+<center><img src="assets/waveunet_decimation.png", width=500></center>
+
 ## References
 
 - Stoller, Daniel, Sebastian Ewert, and Simon Dixon. "Wave-u-net: A multi-scale neural network for end-to-end audio source separation." arXiv preprint arXiv:1806.03185 (2018).
