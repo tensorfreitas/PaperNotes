@@ -111,6 +111,13 @@ To avoid this a linear interpolation for upsampling is applied, ensuring tempora
 
 <center><img src="assets/waveunet_decimation.png", width=500></center>
 
+**Author's Improvements on base architecture**
+
+- Instead of outputting K output sources, they propose a final output of _K-1_ sources. The final mixture is just the subtraction of the _K-1_ outputs to the original mixture. According to the authors, this constrains the model to learn that the sum of the output sources should be equal to the original mixtures.
+- To avoid the zero-padding artifacts created by the base architecture, they propose convolutions without implicit padding. They use an input larger than the size of the output so that the convolutions are computed in the correct audio context.
+- They evaluate the effect of stereo vs mono results
+- Instead of a linear-interpolation they also propose an alternative learned upsampling layer, i.e, a 1D convolution with _F_ filters of size _2_ and no padding. This can be seen as a generalization of simple linear interpolation. 
+  
 ## References
 
 - Stoller, Daniel, Sebastian Ewert, and Simon Dixon. "Wave-u-net: A multi-scale neural network for end-to-end audio source separation." arXiv preprint arXiv:1806.03185 (2018).
