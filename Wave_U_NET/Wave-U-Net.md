@@ -116,8 +116,37 @@ To avoid this a linear interpolation for upsampling is applied, ensuring tempora
 - Instead of outputting K output sources, they propose a final output of _K-1_ sources. The final mixture is just the subtraction of the _K-1_ outputs to the original mixture. According to the authors, this constrains the model to learn that the sum of the output sources should be equal to the original mixtures.
 - To avoid the zero-padding artifacts created by the base architecture, they propose convolutions without implicit padding. They use an input larger than the size of the output so that the convolutions are computed in the correct audio context.
 - They evaluate the effect of stereo vs mono results
-- Instead of a linear-interpolation they also propose an alternative learned upsampling layer, i.e, a 1D convolution with _F_ filters of size _2_ and no padding. This can be seen as a generalization of simple linear interpolation. 
+- Instead of a linear-interpolation they also propose an alternative learned upsampling layer, i.e, a 1D convolution with _F_ filters of size _2_ and no padding. This can be seen as a generalization of simple linear interpolation.
+
+## Implementation details
+
+- No Preprocessing
+- Audio Signals are resampled to 22050 Hz and are split into non-overlapping segments of 1 second.
+- Data Augmentation is used by multiplying the sources by a random ration between [0.7, 1]. The augmented mixture is obtained by summing all the augmented sources.
+- Mean Squared Error Loss used
+- Adam optimizer with learning rate (0.0001) and default Betas.
+- Training with early stopping after 20 epochs with no improvements in validation MSE. 
+- After this, the model is fine-tuned with double of the batch size and learning rate of (0.00001) with early stopping after 20 epochs with no improvements in validation MSE.
+- Baseline model has 12 Layers with 24 filters of sizes 15 in downsampling and 5 in upsampling. 
+- Models with additional input context (no zero padding) have bigger input and output samples.
+- Signal-to-distortion metric (SDR) is used to evaluate final source separation after training. Other metrics exist:
   
+<center><img src="assets/SDR_1.png", width=500></center>
+<center><img src="assets/SDR_2.png", width=500></center>
+
+- Since SDR of silent audio segments is undefined (_log(0)_), these segments are ignored in the implementation.
+- Due to the SDR is not normally distributed across segments the median is taken over segments (describes the min performance that is achieved 50% of the time). The Median Absolute deviation is also used. 
+
+## Results and conclusions
+
+- The change in the number of output sources does not have a significant impact on performance.
+- Introducing the context improves performance.
+- Stereo outperforms mono.
+- Learned upsample improves the median in vocal separation but decreases the mean.
+- It is very competitive to spectrogram U-Net.
+- Since the segments are combined by concatenation some inconsistencies occur at the borders. The context model corrects this.
+- The authors suggest trying out different losses in the future.
+
 ## References
 
 - Stoller, Daniel, Sebastian Ewert, and Simon Dixon. "Wave-u-net: A multi-scale neural network for end-to-end audio source separation." arXiv preprint arXiv:1806.03185 (2018).
@@ -126,3 +155,4 @@ To avoid this a linear interpolation for upsampling is applied, ensuring tempora
 - Grais, Emad M., Dominic Ward, and Mark D. Plumbley. "Raw Multi-Channel Audio Source Separation using Multi-Resolution Convolutional Auto-Encoders." In 2018 26th European Signal Processing Conference (EUSIPCO), pp. 1577-1581. IEEE, 2018.
 - Pascual, Santiago, Antonio Bonafonte, and Joan Serrà. "SEGAN: Speech enhancement generative adversarial network." arXiv preprint arXiv:1703.09452 (2017).
 - Oord, Aaron van den, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew Senior, and Koray Kavukcuoglu. "Wavenet: A generative model for raw audio." arXiv preprint arXiv:1609.03499 (2016).
+- Vincent, Emmanuel, Rémi Gribonval, and Cédric Févotte. "Performance measurement in blind audio source separation." IEEE transactions on audio, speech, and language processing 14, no. 4 (2006): 1462-1469.
