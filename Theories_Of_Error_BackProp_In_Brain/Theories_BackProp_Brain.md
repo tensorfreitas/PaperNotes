@@ -11,9 +11,9 @@ Review article of theories on how brain neural circuits can be seen as neural ne
 
 ### Biologically Questionable Aspects of the Back-Propagation Algorithm
 
-1. No Local Error Representation: without local representation, each synaptic weight depends on the activity and computations of all downstream errors. Biological neurons change their connection strength solely on local signals.
-2. The symmetry of forwards and backwards weights don't always make sense: in ANNs the backpropagated errors use the same weights as the forward pass, suggesting identical connections in both directions. In biological neurons, this bidirectional connections are common but not always present!
-3. Outputs are not biological plausible: ANNs have neurons with continuous output, whereas biological neurons use spikes. Using this spike patterns in backpropagation is non-trivial since it is unclear how to compute the gradients.
+1. **No Local Error Representation**: without local representation, each synaptic weight depends on the activity and computations of all downstream errors. Biological neurons change their connection strength solely on local signals.
+2. **The symmetry of forwards and backwards weights don't always make sense**: in ANNs the backpropagated errors use the same weights as the forward pass, suggesting identical connections in both directions. In biological neurons, this bidirectional connections are common but not always present!
+3. **Outputs are not biological plausible**: ANNs have neurons with continuous output, whereas biological neurons use spikes. Using this spike patterns in backpropagation is non-trivial since it is unclear how to compute the gradients.
 
 ## References
 - Whittington, James CR, and Rafal Bogacz. "Theories of error back-propagation in the brain." Trends in cognitive sciences (2019).
