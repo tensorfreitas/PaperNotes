@@ -24,11 +24,44 @@ Review article of theories on how brain neural circuits can be seen as neural ne
 - Another study proposed that when biologically realistic neurons are used, they may approximate small ANNs in their dendritic structure.
   
 The paper reviews some biologically plausible models:
-1. They work without minimal external control since they can compute local errors through the dynamics of the network. 
-2. They consider spike time-dependent plasticity of neurons.
-3. They consider the properties of pyramidal neurons and cortical microcircuits. 
-4. They include both feedforward and feedback connections (that allow them not to require an external program to calculate the errors).
+
+1. They work without **minimal external control** since they can compute local errors through the dynamics of the network.
+2. They consider **spike time-dependent plasticity** of neurons.
+3. They consider the **properties of pyramidal neurons** and cortical microcircuits. 
+4. They include both **feedforward and feedback connections** (that allow them not to require an external program to calculate the errors).
 5. They use energy-minimization models.
+
+### Temporal-Error Models
+
+They encode errors of different neural activities across time.
+
+#### Contrastive Learning
+
+Is one of the proposed models. It suggests that the weights can be decomposed in two different updates:
+
+  1. Update based on the activity without the target:
+     - **anti-Hebbian plasticity**: synaptic weight is proportional to the negative product of the activity of the pre and postsynaptic neurons
+     - If both neurons have high activations then the weight of the connection is reduced.
+     - Unlearns the existing association between target and input.
+  2. Update based on the target provided to the output neurons.
+     - **Hebbian plasticity**: weight modifications are proportional to the product of the activity of the pre and postsynaptic neurons.
+     - Tries to learn the new association between input and target.
+  
+  ![hebbian](assets/hebbian_learning.png)
+
+The neurons in the output layer are driven by the feedforward phase and then forced to take the target value in another phase.
+
+This model involves locally error estimation but biologically it would involve a global signal to determine the phase of the updates (Hebbian and anti-Hebbian). It is not been proven that this signal exists in the brain.
+
+#### Continuous Update Model
+
+- Here the **output activities are gradually changed from the prediction to the target**.
+- The rate of change is proportional to the error terms. The **weight change could then be driven by local plasticity** (based on local activity change rate). The weight modification is equal to the product of the presynaptic activity and the rate of change of the postsynaptic activity.
+- **Does not involve two learning phases** as Contrastive Learning.
+- It still **depends on a control signal** when the target is present (since local plasticity does not occur during prediction phase).
+
+(A) Network architecture. (B) Dynamics. (C) Contrastive learning. (D) Continuous update.
+![temporal_models](assets/temporal_models.jpg)
 
 ## References
 - Whittington, James CR, and Rafal Bogacz. "Theories of error back-propagation in the brain." Trends in cognitive sciences (2019).
