@@ -102,7 +102,21 @@ _Dendritic Error Model. (A) Network architecture. Blue circles indicate pyramida
 - Weight updates are challenging since **interneurons must learn to produce activity encoding the same information as the higher level pyramidal neurons**. To allow this the interneurons have one-to-one connections from higher-level neurons.
 - The weight updates correspond to local synaptic plasticity.
 - Error information can be transmitted from the apical dendrite to the rest of the neuron through internal signals (Recent studies suggest that the errors encoded in these dendrites can determine the plasticity of the whole neuron).
+- Before the network learns the feedforward connections, the interneurons need to be pre-trained (although they can be learned in parallel).
 - These models are **biologically plausible**, while still approximating the backpropagation algorithm.
+
+## Comparison of models
+
+![comparison](assets/comparison.png)
+
+- The temporal-error models need a control signal while explicit-error models do not.
+- Temporal-Error models have simpler architectures
+- The Explicit error models include one-to-one connections but there is no evidence of their existence in the neocortex.
+- Predictive coding is slower due to the error nodes.
+- **Contrastive Learning has been shown to reproduce neural responses in a variety of tasks**.
+- **Continuous Update Model can be implemented with spike-time-dependent plasticity**, i.e. the increase or decrease of modification depends on whether the spike of a presynaptic precedes of follows the postsynaptic spike.
+- A study shows that learning in the **predictive coding model can arise from an alternate form of spike-time-dependent plasticity**. The weights are increased by nearly coincident pre and postsynaptic spikes, irrespectively of their order, and additionally, the weight is decreased by each presynaptic spike.
+- **Dendritic-Error models describe the computation of pyramidal neurons** and they are biologically realistic.
 
 ## References
 - Whittington, James CR, and Rafal Bogacz. "Theories of error back-propagation in the brain." Trends in cognitive sciences (2019).
