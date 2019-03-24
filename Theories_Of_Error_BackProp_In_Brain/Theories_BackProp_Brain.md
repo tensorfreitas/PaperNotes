@@ -63,5 +63,46 @@ This model involves locally error estimation but biologically it would involve a
 (A) Network architecture. (B) Dynamics. (C) Contrastive learning. (D) Continuous update.
 ![temporal_models](assets/temporal_models.jpg)
 
+### Explicit-Error Models
+
+Models that do not require control signals but have more complex architectures.
+
+#### Predictive Coding Models
+
+- Models of information processing in hierarchical cortical circuits and originally created for unsupervised learning.
+- It learns similar representations to the visual cortex when trained with images.
+- It has been used as a general framework for describing different types of information processing in the brain.
+- It is been shown that it is used in supervised learning and it is closely approximated by back-propagation.
+- Contains **error nodes** and the corresponding **value nodes** (Blue and red circles denote the value and error nodes, respectively):
+
+_Arrows and lines ending with circles denote excitatory and inhibitory connections, respectively; green double lines indicate connections between all neurons in one layer and all neurons in the next layer, while single black lines indicate within layer connections between a corresponding error and value node_
+![predictive_coding](assets/predictive_coding.jpg)
+
+- In **prediction phase**, the input is fed to the network and the activity is propagated through the value nodes via the error nodes. The equilibrium is achieved when the error nodes decay to zero and all value nodes converge to the same values as the corresponding ANN.
+- In the **learning phase** both input and output layers are set to the training patterns. The error nodes no longer decay to zero but they instead converge to values as if the errors had been back-propagated. After reaching equilibrium the weights are changed according to the **Hebbian plasticity** rule.
+- The **weight changes are close to the ones seen in the back-propagation algorithm**.
+- They work autonomously, independently of the input pattern given.
+- The **one-to-one connectivity of error nodes with their value nodes is biologically inconsistent** with the patterns observed in the neuronal connectivity of the cortex.
+
+#### Dendritic Error Model
+
+- **Error is represented in the dendrites of the corresponding neuron**.
+- Describes networks of pyramidal neurons by **assuming that errors in their activity are computed in their apical dendrites**.
+- Apical dendrites compare higher-level feedbacks with a local prediction of higher-level activity computer via interneurons:
+
+_Dendritic Error Model. (A) Network architecture. Blue circles indicate pyramidal neurons, red rectangles indicate their apical dendrites, and purple circles denote interneurons. (B) Dynamics._
+![dendritic](assets/dendritic_models.jpg)
+
+- It is **closely related to predictive coding models**: it is described by a simple rearranging the dynamics of predictive coding to produce a model where the dendrites compute the error. 
+- The dynamics of this model includes 4 terms:
+  1. a simple decay term
+  2. a second term with a feedforward input from the previous layer
+  3. term containing feedback from the layer above
+  4. fourth term containing a within layer recurrent output.
+- Weight updates are challenging since **interneurons must learn to produce activity encoding the same information as the higher level pyramidal neurons**. To allow this the interneurons have one-to-one connections from higher-level neurons.
+- The weight updates correspond to local synaptic plasticity.
+- Error information can be transmitted from the apical dendrite to the rest of the neuron through internal signals (Recent studies suggest that the errors encoded in these dendrites can determine the plasticity of the whole neuron).
+- These models are **biologically plausible**, while still approximating the backpropagation algorithm.
+
 ## References
 - Whittington, James CR, and Rafal Bogacz. "Theories of error back-propagation in the brain." Trends in cognitive sciences (2019).
