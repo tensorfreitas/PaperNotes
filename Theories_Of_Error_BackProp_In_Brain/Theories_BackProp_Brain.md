@@ -118,5 +118,26 @@ _Dendritic Error Model. (A) Network architecture. Blue circles indicate pyramida
 - A study shows that learning in the **predictive coding model can arise from an alternate form of spike-time-dependent plasticity**. The weights are increased by nearly coincident pre and postsynaptic spikes, irrespectively of their order, and additionally, the weight is decreased by each presynaptic spike.
 - **Dendritic-Error models describe the computation of pyramidal neurons** and they are biologically realistic.
 
+## Integrating models
+
+- Cortical Circuitry is much more complex than these models.
+- The models described only can be considered as descriptions of learning of more complex brain networks.
+- **Different models are more suited for specific tasks**:
+   1. For predicting the next value of sensory input from the previous one the most suited should be the temporal-error models.
+   2. Explicit-Error models are more indicated for tasks where the timing of the pattern presentation is uncertain.
+- It is conceivable that cortical networks include elements of predictive coding in addition to dendritic error ones (predictive coding for fast learning and dendritic error models for fast information processing).
+- Predictive coding may describe information processing in subcortical parts of brain networks.
+- **Temporal-Error models** under certain assumptions, converge to an equilibrium in which strongly connected neurons have similar levels of activations. They minimize an energy function called **Hopfield energy**.
+- **Predictive coding** also minimize a **Free Energy function**. It has a statistical interpretation since its negative provides a lower bound on the log probability of a target prediction. This may indicate why these networks have better performance in MNIST. 
+- All models can be seen as **energy-based models** described by the equilibrium propagation framework.
+- This framework shows that the weight modifications of the models described following this rule of energy minimization, and how this can be used to combine models while also minimizing the energy function.
+- Energy function affects performance.
+
+## Conclusions
+
+- Weight symmetry problem is not solved by these models.
+- It is unclear how to scale these models to complex problems.
+- The models described the use of static inputs, whereas the brain receives dynamic sequential inputs. 
+
 ## References
 - Whittington, James CR, and Rafal Bogacz. "Theories of error back-propagation in the brain." Trends in cognitive sciences (2019).
