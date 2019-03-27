@@ -38,7 +38,7 @@ They propose a Wavenet-based model and benchmark it against other models like De
 ### DeepConvSep
 
 - State-of-the-art spectrogram based method. 
-![wavenet3](assets/deepconvsep.png)
+![deepconvsep](assets/deepconvsep.png)
 - It has an encoder-decoder convolutional architecture.
 - It has vertical filters to capture timbral representations and horizontal to model temporal cues. 
 - Mean Squared error loss used, but the authors notice that an adjustment to the loss improved the results. This loss has three different terms added to the MSE:
