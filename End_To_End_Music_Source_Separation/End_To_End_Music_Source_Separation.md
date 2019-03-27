@@ -35,7 +35,23 @@ They propose a Wavenet-based model and benchmark it against other models like De
 - Adam optimizer used with a learning rate of 0.001
 - Trained with early stopping.
 
+### DeepConvSep
+
+- State-of-the-art spectrogram based method. 
+![wavenet3](assets/deepconvsep.png)
+- It has an encoder-decoder convolutional architecture.
+- It has vertical filters to capture timbral representations and horizontal to model temporal cues. 
+- Mean Squared error loss used, but the authors notices that an adjustement to the loss improved the results. This loss has three different terms added to the MSE:
+    1. a term for differences between different instrumental souces s such as ’vocals’ and ’other’, ’bass’ and ’other’, and’drums’ and ’other’.
+    2. a term for difference between the estimated vocals and the other stem
+    3. a term representing the difference between the estimated sources.
+
+### Wave-U-Net
+
+Already have notes on this on this paper on this repo.
+
 ## References
 
 - Lluís, Francesc, Jordi Pons, and Xavier Serra. "End-to-end music source separation: is it possible in the waveform domain?." arXiv preprint arXiv:1810.12187 (2018).
 - Rethage, Dario, Jordi Pons, and Xavier Serra. "A wavenet for speech denoising." In 2018 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), pp. 5069-5073. IEEE, 2018.
+- Chandna, Pritish, Marius Miron, Jordi Janer, and Emilia Gómez. "Monoaural audio source separation using deep convolutional neural networks." In International Conference on Latent Variable Analysis and Signal Separation, pp. 258-266. Springer, Cham, 2017.
