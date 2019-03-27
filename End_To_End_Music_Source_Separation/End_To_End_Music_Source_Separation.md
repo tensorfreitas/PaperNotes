@@ -41,14 +41,22 @@ They propose a Wavenet-based model and benchmark it against other models like De
 ![wavenet3](assets/deepconvsep.png)
 - It has an encoder-decoder convolutional architecture.
 - It has vertical filters to capture timbral representations and horizontal to model temporal cues. 
-- Mean Squared error loss used, but the authors notices that an adjustement to the loss improved the results. This loss has three different terms added to the MSE:
-    1. a term for differences between different instrumental souces s such as ’vocals’ and ’other’, ’bass’ and ’other’, and’drums’ and ’other’.
-    2. a term for difference between the estimated vocals and the other stem
+- Mean Squared error loss used, but the authors notice that an adjustment to the loss improved the results. This loss has three different terms added to the MSE:
+    1. a term for differences between different instrumental sources s such as ’vocals’ and ’other’, ’bass’ and ’other’, and’drums’ and ’other’.
+    2. a term for the difference between the estimated vocals and the other stem
     3. a term representing the difference between the estimated sources.
 
 ### Wave-U-Net
 
 Already have notes on this on this paper on this repo.
+
+## Experimental Results
+
+- **A dissimilarity loss term is added** to the loss to reduce the interferences from other sources (one of the terms used in DeepConvSep). This loss term **does not improve the results in music source separation**. **In voice source separation it does seem to improve** the results. 
+- **Deeper models outperform wider ones** (in Wavenet based models). This may due that wider models have a lot more parameters and overfit the training set. The small receptive field of these models can also hurt the performance. 
+- In a perceptual test with humans (subjects classified samples from 1-5 to evaluate the interferences), Wavenet outperformed DeepConvSep and this is also consistent with the other metrics. 
+- **Wave-U-Net seems to outperform Wavenet** in singing voice source separation. 
+- Proposed Wavenet has comparable results with a lot less parameters than Wave-U-Net.
 
 ## References
 
