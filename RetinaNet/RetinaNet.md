@@ -84,7 +84,7 @@ In practice, the authors use an **α-balanced Focal Loss**, as it improves the o
 - With γ = 2, the AP is improved by 2.9 points over the α-Balanced CE.
 - Changing γ has much more effect than α. 
 
-![cdf](assets/cdf.png)
+![cdf](assets/CDF.png)
 - The **fraction of foreground examples is similar for different values of γ**. 
 - The **fraction of background examples is quite different for different values of γ**, whereas with **γ = 2, the vast majority of the loss contribution comes from a small fraction of samples**. 
 - Hinge Loss was unstable on the experiments.
