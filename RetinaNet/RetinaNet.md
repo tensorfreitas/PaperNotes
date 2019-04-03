@@ -77,6 +77,24 @@ In practice, the authors use an **α-balanced Focal Loss**, as it improves the o
 - Weight decay of 0.0001 is used with a momentum of 0.9.
 - **Total loss is the sum of Focal loss and L1 loss** in the bounding box regression. 
 
+# Results
+
+- Using **standard cross-entropy** without modifications in RetinaNet makes the training to **diverge**. The inclusion of the prior parameter π in the model solves this divergence.
+- α-Balanced CE with α of 0.75 gives a boost on AP of 0.9.
+- With γ = 2, the AP is improved by 2.9 points over the α-Balanced CE.
+- Changing γ has much more effect than α. 
+
+![cdf](assets/cdf.png)
+- The **fraction of foreground examples is similar for different values of γ**. 
+- The **fraction of background examples is quite different for different values of γ**, whereas with **γ = 2, the vast majority of the loss contribution comes from a small fraction of samples**. 
+- Hinge Loss was unstable on the experiments.
+- **Best results with 2 scales and 3 aspect ratios** for each position in each pyramid level. 
+![speed](assets/speed.png)
+- Larger backbone networks have higher AP, but also slower inference speeds.
+- **Surpasses all two-stage detectors**.
+- YOLOv2 is still a lot faster, but RetinaNet has a bigger inference speed that other One-stage methods. 
+- **Achieves State-of-the-art on test-dev COCO dataset** with a 5.9 improvement in AP. this can also been improved if the backbone used is ResNeXt-32x8d-101-FPN. 
+
 ## References
 
 - Lin, Tsung-Yi, Priya Goyal, Ross Girshick, Kaiming He, and Piotr Dollár. "Focal loss for dense object detection." In Proceedings of the IEEE international conference on computer vision, pp. 2980-2988. 2017.
