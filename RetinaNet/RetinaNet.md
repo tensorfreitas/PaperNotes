@@ -43,6 +43,40 @@ In practice, the authors use an **α-balanced Focal Loss**, as it improves the o
 
 ![alpha_fl](assets/alpha_fl.png)
 
+### Prior Probability parameter
+
+- Generally, models have an equal probability of classifying both classes and the imbalance on training leads to the most frequent class dominating the loss. 
+- **A prior for the predicted probability** p is proposed: **π is set to a low value for the rare class**. This is a model parameter and not part of the loss.
+
+## RetinaNet
+
+![retina](assets/retinanet.png)
+  
+- Composed by a **pre-trained backbone network** (Feature Pyramid Network over ResNet) responsible to **extract features** from the **entire input image**. The FPN:
+    1. creates a top-down pathway and lateral connections, creating a multi-scale feature pyramid from the entire image.
+    2. Compared to the original FPN, the authors:
+       1. do not use Pyramid level 2
+       2. Level 6 uses strided-convolutions instead of down-sampling
+       3. Level 7 is included to increase large object detection
+- Simple **Resnet without FPN leads to low AP**.
+- **Anchors** of **different areas** (32x32 to 512x512),**different aspect ratios** (1:1, 1:2, 2:1) are used. To increase the scale coverage at each pyramid level anchor sizes of 2^0^, 2^1/3^ and 2^2/3^ are also used. This means that there are **9 anchors per pyramid level** covering the scale range from 32 to 813 pixels in the input image. 
+- One **subnet classifies each anchor** and **the other** one does **regression to estimate the bounding box**.
+- The classification subnetwork is fully convolutional using only 3x3 filters.
+- In training, anchors are assigned as the ground truth objects if the Intersection over Union (IoU = Overlap Area / Union Area) is greater than 0.5 (and background if it is < 0.4). If an anchor has IoU between 0.4 and 0.5 it is unassigned and ignored in training. 
+- The bounding box regression subnet is also fully convolutional that tries to regressing the offset of the anchor to the closest ground-truth object (if existent). 
+- The regression subnet is **identical** but **not sharing parameters** to the classification with the exception of the final layer having 4 outputs with linear activations. 
+- The **regression net is class-agnostic**, unlike prior works.
+- To improve the speed of inference, **only uses the top 1k predictions per pyramid level**, after thresholding the confidence at 0,05. After this, the predictions of all levels are fused and a **non-maximum suppression** is applied with a threshold of 0.5 to get the final detections.
+- The authors find that in the focal loss γ = 2 works better, but the RetinaNet is robust to values between [0.5, 5].
+- The focal loss is applied to all ~100k anchors with no resampling. The total loss is the sum of all focal losses in all anchors, normalized by the number of anchors assigned to a ground-truth object. 
+- γ and α are closely related and should be tuned together. In practice **when γ is increased, α should be decreased.**
+- The convolutional layers (except the **last conv layer of the classification subnet**) in the subnetworks are initialized with bias of zero and Gaussian weights with a sigma of 0.01. The final convolution is **initialized with a bias of b = -log((1 − π)/π)**, where **π** is the **prior confidence** as discussed before.
+- SGD is used as optimizer
+- All models trained for 90k iterations with a learning rate of 0.01 for the first 60k iterations, 0.001 between 60k and 80k, and finally 0.0001 in the last 10k iterations. 
+- Only horizontal flipping is used as augmentation
+- Weight decay of 0.0001 is used with a momentum of 0.9.
+- **Total loss is the sum of Focal loss and L1 loss** in the bounding box regression. 
+
 ## References
 
 - Lin, Tsung-Yi, Priya Goyal, Ross Girshick, Kaiming He, and Piotr Dollár. "Focal loss for dense object detection." In Proceedings of the IEEE international conference on computer vision, pp. 2980-2988. 2017.
