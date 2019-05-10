@@ -41,3 +41,29 @@ Given a batch of size N with N/2 labeled samples and N/2 unlabeled samples, it a
 
 
 The used loss tries to minimize the cross-entropy between the labeled samples ground truth and the predictions and also minimize the squared L2 loss between the augmented unlabeled samples. The gradients are not propagated through the guessed unlabeled samples. 
+
+## Experiments
+
+- Wide ResNet-28 model used.
+- Exponential Moving Average of the model parameters. 
+- The parameter T of the probability calibration is fixed and the number of augmentations per unlabeled samples is also set at 2.
+- The MixUp parameters are changed on a per-dataset basis. 
+- Weight Decay used for regularization.
+- CIFAR-10, CIFAR-100, SVNH and STL-10 datasets used with variations of the number of labeled examples used. 
+
+## Results
+
+- MixMatch outperforms all the other approaches. 
+- On CIFAR-10 it obtains an error rate of 11.08% with only 250 labels vs 36.03% of VAT with 250 labels.
+- On CIFAR-100 it outperforms or matches the SOTA. 
+- On SVNH the performance is quite consistent with a different number of labeled samples. MixMatch nearly matches the fully-supervised performance on the same
+training set almost immediately.
+- On STL-10, it surpasses both the state-of-the-art for 1000 examples as well as the state-of-the-art using all 5000 labeled examples.
+
+## Ablation Study
+
+The authors show that all components contribute to the decrease of the error rate on CIFAR-10, especially with fewer labels. 
+
+# Privacy-Preserving Learning, and Generalization
+
+MixMatch can help achieve a dramatically better accuracy-privacy trade-off for differential privacy.
