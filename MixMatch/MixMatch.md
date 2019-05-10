@@ -64,6 +64,6 @@ training set almost immediately.
 
 The authors show that all components contribute to the decrease of the error rate on CIFAR-10, especially with fewer labels. 
 
-# Privacy-Preserving Learning, and Generalization
+## Privacy-Preserving Learning, and Generalization
 
 MixMatch can help achieve a dramatically better accuracy-privacy trade-off for differential privacy.
