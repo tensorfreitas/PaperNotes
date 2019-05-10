@@ -28,3 +28,16 @@ These methods assume that the decision boundary should not pass through high-den
 An example of this type of methods is applying a _L_2_ penalization of the model parameters, that with gradient descent will correspond to exponentially decay the weight values to zero. 
 
 More recently MixUp regularizer that proposes convex combinations of both inputs and labels. This tries to encourage the model to have linear behavior between examples while requiring that by requiring that the model’s output for a convex combination of two inputs is close to the convex combination of the output for each individual input.
+
+## MixMatch
+
+MixMatch is presented as a holistic approach with all the previously referred paradigms. 
+Given a batch of size N with N/2 labeled samples and N/2 unlabeled samples, it applies augmentations to all the batch:
+1. Each labeled sample is augmented in the batch
+2. For each unlabeled sample, K augmented samples are generated
+3. A guess label for the unlabeled sample is done by averaging the model predictions across the K augmented samples. 
+4. After having an average prediction, a sharpening function is applied to reduce the entropy of the label distribution (probability calibration).
+5. The final step of MixMatch is done by using MixUp to both labeled and unlabeled samples (and their calibrated guesses). The authors claim that mixing labeled and unlabeled samples improve the performance of the system. The authors modify MixUp forcing the generated samples to be closer to an original sample. 
+
+
+The used loss tries to minimize the cross-entropy between the labeled samples ground truth and the predictions and also minimize the squared L2 loss between the augmented unlabeled samples. The gradients are not propagated through the guessed unlabeled samples. 
